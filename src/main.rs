@@ -700,19 +700,19 @@ RThumbY: {:.2}
 							value: rfButtPress as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_LStickX".to_string(),
+							id: "NP_AngleX".to_string(),
 							value: lAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_LStickY".to_string(),
+							id: "NP_AngleY".to_string(),
 							value: lAxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_RStickX".to_string(),
+							id: "NP_EyeBallX".to_string(),
 							value: rAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_RStickY".to_string(),
+							id: "NP_EyeBallY".to_string(),
 							value: rAxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
