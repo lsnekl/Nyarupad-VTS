@@ -84,6 +84,9 @@ async fn main() -> Result<(), Error> {
 
         }
     });
+	
+//DO NOT TOUCH ^^^	
+	
 //}}}
 //Create Parameters{{{
 		let connSuccess = match client.send(&ParameterCreationRequest {
@@ -236,9 +239,9 @@ async fn main() -> Result<(), Error> {
 	//}}}
 
 	// Face Button Down{{{
-				let rfButtDownS = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT)   { 1.0 } else { 0.0 };
+				let ZButton = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT)   { 1.0 } else { 0.0 };
 
-				let rfButtDownU = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP)   { 1.0 } else { 0.0 };
+				let CButton = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP)   { 1.0 } else { 0.0 };
 				let rfButtDownD = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_DOWN) { 1.0 } else { 0.0 };
 				let rfButtDownL = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_LEFT) { 1.0 } else { 0.0 };
 				let rfButtDownR = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_RIGHT){ 1.0 } else { 0.0 };
@@ -313,82 +316,31 @@ async fn main() -> Result<(), Error> {
 			let mut DrawY=0;
 			if !compact {
 				d.draw_text(&format!(
-"FPS: {}
+"
+FPS: {}
 
 PARAMETERS
-RStickX: {:.2}
-RStickY: {:.2}
-ROnStick: {:.2}
-LStickX: {:.2}
-LStickY: {:.2}
-LOnStick: {:.2}
-RButtonDown: {}
-LButtonDown: {}
-RButtonPressed: {:.2}
-LButtonPressed: {:.2}
-R1: {}
-L1: {}
-R2: {:.2}
-L2: {:.2}
-RIndexDown: {}
-LIndexDown: {}"
+JoyStickX{:.2}
+JoyStickY{:.2}
+ZButton{}
+CButton{}
+AccelX{:.2}
+AccelY{:.2}
+AccelZ{:.2}
+"
 					, current_fps
-					, rAxisX
-					, rAxisY
-					, thumbRStick
-					, lAxisX
-					, lAxisY
-					, thumbLStick
-					, rfButtDown
-					, lfButtDown
-					, rfButtPress
-					, lfButtPress
-					, if triggerR1 {1} else {0}
-					, if triggerL1 {1} else {0}
-					, rAxisT
-					, lAxisT
-					, shoulderRDown
-					, shoulderLDown
+					, JoyAxisX
+					, JoyAxisY
+					, ZButtonPressed
+					, CButtonPressed
+					, AccelAxisX
+					, AccelAxisY
+					, AccelAxisZ
+					
 				), 5, 5, 10, Color::BLACK);
 				if exEnable {
 					let col2X=15+text::measure_text("RButtonPressed: 0.0000", 10)+5;
 					d.draw_text(&format!(
-		"
-
-DPadUp: {}
-DPadDown: {}
-DPadLeft: {}
-DPadRight: {}
-ButtonA: {}
-ButtonB: {}
-ButtonX: {}
-ButtonY: {}
-ButtonLS: {}
-ButtonRS: {}
-Select: {}
-Start: {}
-LThumbX: {:.2}
-LThumbY: {:.2}
-RThumbX: {:.2}
-RThumbY: {:.2}
-"
-						, DPadU
-						, DPadD
-						, DPadL
-						, DPadR
-						, rfButtDownD
-						, rfButtDownR
-						, rfButtDownL
-						, rfButtDownU
-						, lStickButton
-						, rStickButton
-						, lfButtDownS
-						, rfButtDownS
-						, lThumbX
-						, lThumbY
-						, rThumbX
-						, rThumbY
-					), col2X, 5, 10, Color::BLACK);
 				}
 			DrawCont = DrawX + exWid * if exEnable {1} else {0};
 			DrawY=35;
@@ -432,11 +384,11 @@ RThumbY: {:.2}
 	//ClientSend{{{
 					client.send(&InjectParameterDataRequest{
 						parameter_values: vec![ParameterValue{
-							id: "NP_ZButtonPress".to_string(),
+							id: "NP_ZButtonPressed".to_string(),
 							value: ZButton as f64,
 							weight: Some(1.0),
 							   }, ParameterValue{
-								id: "NP_CButtonPress".to_string(),
+								id: "NP_CButtonPressed".to_string(),
 								value: CButton as f64,
 								weight: Some(1.0),
 							   }, ParameterValue{
@@ -445,7 +397,7 @@ RThumbY: {:.2}
 								weight: Some(1.0),
 							   }, ParameterValue{
 								id: "NP_JoyY".to_string(),
-								value: rThumbX as f64,
+								value: JoyY as f64,
 								weight: Some(1.0),
 							   }, ParameterValue{
 								id: "NP_AccelX".to_string(),
@@ -458,6 +410,10 @@ RThumbY: {:.2}
 							}, ParameterValue{
 								id: "NP_AccelZ".to_string(), 
 								value: AccelZ as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ON".to_string(),
+								value: 1.0 as f64,
 								weight: Some(1.0),
 						}],
 					}).await?;
