@@ -98,232 +98,51 @@ async fn main() -> Result<(), Error> {
 			};
 		if connSuccess {
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LButtonDown".to_string(), 
-				explanation: Some("Left side face buttons down".to_string()), 
+				parameter_name: "NP_ZButtonPressed".to_string(), 
+				explanation: Some("Z Button is pressed".to_string()), 
 				min: 0.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RButtonDown".to_string(), 
-				explanation: Some("Right side face buttons down".to_string()), 
+				parameter_name: "NP_CButtonPressed".to_string(), 
+				explanation: Some("C Button is pressed".to_string()), 
 				min: 0.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LButtonPress".to_string(), 
-				explanation: Some("Left side face buttons Pressed".to_string()), 
+				parameter_name: "NP_JoyX".to_string(), 
+				explanation: Some("JoyStick X".to_string()), 
 				min: 0.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RButtonPress".to_string(), 
-				explanation: Some("Right side face buttons Pressed".to_string()), 
+				parameter_name: "NP_JoyY".to_string(), 
+				explanation: Some("JoyStick Y".to_string()), 
 				min: 0.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LThumbX".to_string(), 
-				explanation: Some("Left Thumb X".to_string()), 
+				parameter_name: "NP_AccelX".to_string(), 
+				explanation: Some("Accelerometer X".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LThumbY".to_string(), 
-				explanation: Some("Left Thumb Y".to_string()), 
+				parameter_name: "NP_AccelY".to_string(), 
+				explanation: Some("Accelerometer Y".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RThumbX".to_string(), 
-				explanation: Some("Right Thumb X".to_string()), 
+				parameter_name: "NP_AccelZ".to_string(), 
+				explanation: Some("Accelerometer Z".to_string()), 
 				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RThumbY".to_string(), 
-				explanation: Some("Right Thumb Y".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LStickX".to_string(), 
-				explanation: Some("Left Stick X".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LStickY".to_string(), 
-				explanation: Some("Left Stick Y".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RStickX".to_string(), 
-				explanation: Some("Right Stick X".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RStickY".to_string(), 
-				explanation: Some("Right Stick Y".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ROnStick".to_string(), 
-				explanation: Some("Outputs 1 when the right thumb is on the analog stick".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LOnStick".to_string(), 
-				explanation: Some("Outputs 1 when the left thumb is on the analog stick".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_L1".to_string(), 
-				explanation: Some("Shoulder Button L Down (L1, LB)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_R1".to_string(), 
-				explanation: Some("Shoulder Button R Down (R1, RB)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_L2".to_string(), 
-				explanation: Some("Trigger Button L (Analog when availible) (L2, LT)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_R2".to_string(), 
-				explanation: Some("Trigger Button R (Analog when availible) (R2, RT)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	// FaceButtons{{{
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonB".to_string(), 
-				explanation: Some("Xbox B, PS Circle Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonX".to_string(), 
-				explanation: Some("Xbox X, PS Square Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonY".to_string(), 
-				explanation: Some("Xbox Y, PS Triangle Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonA".to_string(), 
-				explanation: Some("Xbox A, PS Cross Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	//}}}
-	// DPAD{{{
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadRight".to_string(), 
-				explanation: Some("DPad Right".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadLeft".to_string(), 
-				explanation: Some("DPad Left".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadUp".to_string(), 
-				explanation: Some("DPad Up".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadDown".to_string(), 
-				explanation: Some("DPad Down".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	//}}}
-	// Middle{{{
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_SelectDown".to_string(), 
-				explanation: Some("Select button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_StartDown".to_string(), 
-				explanation: Some("Start button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonRS".to_string(), 
-				explanation: Some("Right Stick button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonLS".to_string(), 
-				explanation: Some("Left Stick button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	//}}}
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LIndexPos".to_string(), 
-				explanation: Some("Outputs 1 When finger is on L2/LT/ZL".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RIndexPos".to_string(), 
-				explanation: Some("Outputs 1 When finger is on R2/RT/ZR".to_string()), 
-				min: 0.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
@@ -414,9 +233,6 @@ async fn main() -> Result<(), Error> {
 				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_X);
 				let mut lAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
-				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
-				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
-				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
 	//}}}
 
 	// Face Button Down{{{
@@ -616,137 +432,33 @@ RThumbY: {:.2}
 	//ClientSend{{{
 					client.send(&InjectParameterDataRequest{
 						parameter_values: vec![ParameterValue{
-							id: "NP_LButtonDown".to_string(),
-							value: lfButtDown as f64,
+							id: "NP_ZButtonPress".to_string(),
+							value: ZButton as f64,
 							weight: Some(1.0),
 							   }, ParameterValue{
-								id: "NP_LThumbX".to_string(),
-								value: lThumbX as f64,
+								id: "NP_CButtonPress".to_string(),
+								value: CButton as f64,
 								weight: Some(1.0),
 							   }, ParameterValue{
-								id: "NP_LThumbY".to_string(),
-								value: lThumbY as f64,
+								id: "NP_JoyX".to_string(),
+								value: JoyX as f64,
 								weight: Some(1.0),
 							   }, ParameterValue{
-								id: "NP_RThumbX".to_string(),
+								id: "NP_JoyY".to_string(),
 								value: rThumbX as f64,
 								weight: Some(1.0),
 							   }, ParameterValue{
-								id: "NP_RThumbY".to_string(),
-								value: rThumbY as f64,
+								id: "NP_AccelX".to_string(),
+								value: AccelX as f64,
 								weight: Some(1.0),
 							}, ParameterValue{
-								id: "NP_SelectDown".to_string(), 
-								value: lfButtDownS as f64,
+								id: "NP_AccelY".to_string(), 
+								value: AccelY as f64,
 								weight: Some(1.0),
 							}, ParameterValue{
-								id: "NP_StartDown".to_string(), 
-								value: rfButtDownS as f64,
+								id: "NP_AccelZ".to_string(), 
+								value: AccelZ as f64,
 								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonB".to_string(), 
-								value: rfButtDownR as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonX".to_string(), 
-								value: rfButtDownL as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonY".to_string(), 
-								value: rfButtDownU as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonA".to_string(), 
-								value: rfButtDownD as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadRight".to_string(), 
-								value: DPadR as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadLeft".to_string(), 
-								value: DPadL as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadUp".to_string(), 
-								value: DPadU as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadDown".to_string(), 
-								value: DPadD as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonRS".to_string(), 
-								value: rStickButton as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonLS".to_string(), 
-								value: lStickButton as f64,
-								weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_ON".to_string(),
-							value: 1.0 as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RButtonDown".to_string(),
-							value: rfButtDown as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LButtonPress".to_string(),
-							value: lfButtPress as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RButtonPress".to_string(),
-							value: rfButtPress as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LStickX".to_string(),
-							value: lAxisX as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LStickY".to_string(),
-							value: lAxisY as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RStickX".to_string(),
-							value: rAxisX as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RStickY".to_string(),
-							value: rAxisY as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_L1".to_string(),
-							value: if triggerL1 {1.0} else {0.0},
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_L2".to_string(),
-							value: lAxisT as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_R1".to_string(),
-							value: if triggerR1 {1.0} else {0.0},
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_R2".to_string(),
-							value: rAxisT as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LIndexPos".to_string(),
-							value: shoulderLDown as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RIndexPos".to_string(),
-							value: shoulderRDown as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LOnStick".to_string(),
-							value: thumbLStick as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_ROnStick".to_string(),
-							value: thumbRStick as f64,
-							weight: Some(1.0),
 						}],
 					}).await?;
 	//}}}
