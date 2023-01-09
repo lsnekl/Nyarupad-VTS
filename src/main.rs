@@ -86,6 +86,8 @@ async fn main() -> Result<(), Error> {
     });
 //}}}
 	
+	//DON'T TOUCH ^^^
+	
 //Create Parameters{{{
 		let connSuccess = match client.send(&ParameterCreationRequest {
 			parameter_name: "NP_ON".to_string(), 
@@ -99,28 +101,28 @@ async fn main() -> Result<(), Error> {
 			};
 		if connSuccess {
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LStickX".to_string(), 
+				parameter_name: "AngleX".to_string(), 
 				explanation: Some("Left Stick X".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LStickY".to_string(), 
+				parameter_name: "AngleY".to_string(), 
 				explanation: Some("Left Stick Y".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RStickX".to_string(), 
+				parameter_name: "EyeBallX".to_string(), 
 				explanation: Some("Right Stick X".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RStickY".to_string(), 
+				parameter_name: "EyeBallY".to_string(), 
 				explanation: Some("Right Stick Y".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
