@@ -233,20 +233,9 @@ async fn main() -> Result<(), Error> {
 PARAMETERS
 RStickX: {:.2}
 RStickY: {:.2}
-ROnStick: {:.2}
 LStickX: {:.2}
 LStickY: {:.2}
-LOnStick: {:.2}
-RButtonDown: {}
-LButtonDown: {}
-RButtonPressed: {:.2}
-LButtonPressed: {:.2}
-R1: {}
-L1: {}
-R2: {:.2}
-L2: {:.2}
-RIndexDown: {}
-LIndexDown: {}"
+"
 					, current_fps
 					, rAxisX
 					, rAxisY
