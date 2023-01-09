@@ -101,28 +101,28 @@ async fn main() -> Result<(), Error> {
 			};
 		if connSuccess {
 			client.send(&ParameterCreationRequest {
-				parameter_name: "AngleX".to_string(), 
+				parameter_name: "ParamAngleX".to_string(), 
 				explanation: Some("Left Stick X".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "AngleY".to_string(), 
+				parameter_name: "ParamAngleY".to_string(), 
 				explanation: Some("Left Stick Y".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "EyeBallX".to_string(), 
+				parameter_name: "ParamEyeBallX".to_string(), 
 				explanation: Some("Right Stick X".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "EyeBallY".to_string(), 
+				parameter_name: "ParamEyeBallY".to_string(), 
 				explanation: Some("Right Stick Y".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
@@ -256,19 +256,19 @@ LStickY: {:.2}
 	//ClientSend{{{
 					client.send(&InjectParameterDataRequest{
 						parameter_values: vec![ParameterValue{
-							id: "AngleX".to_string(),
+							id: "ParamAngleX".to_string(),
 							value: lAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "AngleY".to_string(),
+							id: "ParamAngleY".to_string(),
 							value: lAxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "EyeBallX".to_string(),
+							id: "ParamEyeBallX".to_string(),
 							value: rAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "EyeBallY".to_string(),
+							id: "ParamEyeBallY".to_string(),
 							value: rAxisY as f64,
 							weight: Some(1.0),
 						}],
