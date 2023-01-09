@@ -702,11 +702,11 @@ RThumbY: {:.2}
 						}, ParameterValue{
 							id: "FaceAngleX".to_string(),
 							value: lAxisX as f64,
-							weight: Some(5.0),
+							weight: Some(1.0),
 						}, ParameterValue{
 							id: "FaceAngleY".to_string(),
 							value: lAxisY as f64,
-							weight: Some(5.0),
+							weight: Some(1.0),
 						}, ParameterValue{
 							id: "EyeRightX".to_string(),
 							value: rAxisX as f64,
