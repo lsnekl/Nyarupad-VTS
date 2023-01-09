@@ -1,5 +1,5 @@
 [package]
-name = "Nyarupad-VTS Wii Controller Support"
+name = "Nyarupad-VTS(Wii_Controller)"
 version = "0.3.0"
 edition = "2021"
 authors = ["Maruseu (@nyaruseu), lsnekl"]
