@@ -1,8 +1,8 @@
 [package]
-name = "Nyarupad-VTS"
+name = "Nyarupad-VTS Wii Controller Support"
 version = "0.3.0"
 edition = "2021"
-authors = ["Maruseu (@nyaruseu)"]
+authors = ["Maruseu (@nyaruseu), lsnekl"]
 [dependencies]
 anyhow = "1.0.47"
 directories = "4.0.1"
