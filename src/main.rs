@@ -219,10 +219,6 @@ async fn main() -> Result<(), Error> {
 				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
 				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
 	//}}}
-				lAxisT = lAxisT/2.0+0.5;
-				rAxisT = rAxisT/2.0+0.5;
-	//}}}
-
 			
 	// Draw UI/Preview{{{
 			let current_fps = rl.get_fps();
@@ -254,96 +250,16 @@ LIndexDown: {}"
 					, current_fps
 					, rAxisX
 					, rAxisY
-					, thumbRStick
 					, lAxisX
 					, lAxisY
-					, thumbLStick
-					, rfButtDown
-					, lfButtDown
-					, rfButtPress
-					, lfButtPress
-					, if triggerR1 {1} else {0}
-					, if triggerL1 {1} else {0}
-					, rAxisT
-					, lAxisT
-					, shoulderRDown
-					, shoulderLDown
-				), 5, 5, 10, Color::BLACK);
-				if exEnable {
-					let col2X=15+text::measure_text("RButtonPressed: 0.0000", 10)+5;
-					d.draw_text(&format!(
-		"
-
-DPadUp: {}
-DPadDown: {}
-DPadLeft: {}
-DPadRight: {}
-ButtonA: {}
-ButtonB: {}
-ButtonX: {}
-ButtonY: {}
-ButtonLS: {}
-ButtonRS: {}
-Select: {}
-Start: {}
-LThumbX: {:.2}
-LThumbY: {:.2}
-RThumbX: {:.2}
-RThumbY: {:.2}
-"
-						, DPadU
-						, DPadD
-						, DPadL
-						, DPadR
-						, rfButtDownD
-						, rfButtDownR
-						, rfButtDownL
-						, rfButtDownU
-						, lStickButton
-						, rStickButton
-						, lfButtDownS
-						, rfButtDownS
-						, lThumbX
-						, lThumbY
-						, rThumbX
-						, rThumbY
-					), col2X, 5, 10, Color::BLACK);
+					), 5, 5, 10, Color::BLACK);
 				}
 			DrawCont = DrawX + exWid * if exEnable {1} else {0};
 			DrawY=35;
 			let stringCurCont=&format!( "<- ({}) {} ->\n" ,conInd+1, conName );
 			d.draw_text(stringCurCont,DrawCont + i_C.width/2 - text::measure_text(stringCurCont, 10)/2, DrawY+i_C.height, 10,Color::BLACK);
 			let WID = width + exWid * if exEnable {1} else {0};
-			//d.draw_text(&format!( "{} extra parameters[TAB]\n[C] Compact mode\n[P] DPad To LStick: {}\n\n<- ({}) {} ->\n" ,if exEnable {"Hide"} else {"Show"}, if DPadToLS {"ON"} else {"OFF"}, conInd+1, conName ),DrawCont + 35, 5, 10,Color::BLACK);
-			let mut LineY = 0;
-			let str1 = &format!( "{} extra parameters [TAB]" ,if exEnable {"Hide"} else {"Show"});
-			d.draw_text(str1,WID - text::measure_text(str1,10) - 5, height - 10 - 2 - 12 * LineY, 10,Color::BLACK);
-			LineY+=1;
-			let str1 = "Compact mode [C]";
-			d.draw_text(str1,WID - text::measure_text(str1,10) - 5, height - 10 - 2 - 12 * LineY, 10,Color::BLACK);
-			LineY+=1;
-			let str1 = &format!( "DPad To LStick: {} [P]" ,if DPadToLS {"ON"} else {"OFF"});
-			d.draw_text(str1,WID - text::measure_text(str1,10) - 5, height - 10 - 2 - 12 * LineY, 10,Color::BLACK);
-		}else{
-			let str1 = &format!("<- {} ->" ,conInd+1);
-			d.draw_text(str1,i_C.width/2-text::measure_text(str1, 10)/2, 0, 10,Color::BLACK);
-		}
-		d.draw_texture(&t_RT,DrawCont,DrawY + (rAxisT*8.0) as i32,Color{r:(255.0*(1.0 - rAxisT)) as u8,g:(255.0*(1.0 - rAxisT)) as u8,b:(255.0*(1.0 - rAxisT)) as u8,a:255});
-		d.draw_texture(&t_LT,DrawCont,DrawY + (lAxisT*8.0) as i32,Color{r:(255.0*(1.0 - lAxisT)) as u8,g:(255.0*(1.0 - lAxisT)) as u8,b:(255.0*(1.0 - lAxisT)) as u8,a:255});
-		d.draw_texture(&t_LB,DrawCont,DrawY + if triggerL1 {2} else {0},if triggerL1 {Color::GRAY} else {Color::WHITE});
-		d.draw_texture(&t_RB,DrawCont,DrawY + if triggerR1 {2} else {0},if triggerR1 {Color::GRAY} else {Color::WHITE});
-		d.draw_texture(&t_C,DrawCont,DrawY,Color::WHITE);
-		d.draw_texture(&t_DPB,DrawCont,DrawY,Color{r:(255.0*(1.0 - lfButtPress)) as u8,g:(255.0*(1.0 - lfButtPress)) as u8,b:(255.0*(1.0 - lfButtPress)) as u8,a:255});
-		d.draw_texture(&t_DP,DrawCont,DrawY,Color{r:(255.0/4.0*(4.0 - lfButtDown as f32)) as u8,g:(255.0/4.0*(4.0 - lfButtDown as f32)) as u8,b:(255.0/4.0*(4.0 - lfButtDown as f32)) as u8,a:255});
-		d.draw_texture(&t_FBB,DrawCont,DrawY,Color{r:(255.0*(1.0 - rfButtPress)) as u8,g:(255.0*(1.0 - rfButtPress)) as u8,b:(255.0*(1.0 - rfButtPress)) as u8,a:255});
-		d.draw_texture(&t_FB,DrawCont,DrawY,Color{r:(255.0/4.0*(4.0 - rfButtDown as f32)) as u8,g:(255.0/4.0*(4.0 - rfButtDown as f32)) as u8,b:(255.0/4.0*(4.0 - rfButtDown as f32)) as u8,a:255});
-		d.draw_texture(&t_SL,DrawCont + (lAxisX*5.0) as i32,DrawY + (lAxisY * -1.0 *5.0) as i32,Color::WHITE);
-		d.draw_texture(&t_SR,DrawCont + (rAxisX*5.0) as i32,DrawY + (rAxisY * -1.0 *5.0) as i32,Color::WHITE);
-		d.draw_texture(&t_Lind,DrawCont,DrawY + 10 * (1 - shoulderLDown as i32),Color::WHITE);
-		d.draw_texture(&t_Rind,DrawCont,DrawY + 10 * (1 - shoulderRDown as i32),Color::WHITE);
-		d.draw_texture(&t_LTH,DrawCont + 28 * (1 - thumbLStick as i32),DrawY + 28 * (1 - thumbLStick as i32),Color::WHITE);
-		d.draw_texture(&t_RTH,DrawCont - 28 * thumbRStick as i32,DrawY + 28 * thumbRStick as i32,Color::WHITE);
-
+			//d.draw_text(&format!( "{} extra parameters[TAB]\n[C] Compact mode\n[P] DPad To LStick: {}\n\n<- ({}) {} ->\n" ,if exEnable {"Hide"} else {"Show"}, if DPadToLS {"ON"} else {"OFF"}, conInd+1, conName ),DrawCont + 35, 5, 10,Color::BLACK)
 	//}}}
 
 	// Update Parameters{{{
