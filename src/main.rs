@@ -154,28 +154,28 @@ async fn main() -> Result<(), Error> {
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LStickX".to_string(), 
+				parameter_name: "FaceAngleX".to_string(), 
 				explanation: Some("Left Stick X".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
+				min: -30.0, 
+				max: 30.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LStickY".to_string(), 
+				parameter_name: "FaceAngleY".to_string(), 
 				explanation: Some("Left Stick Y".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
+				min: -30.0, 
+				max: 30.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RStickX".to_string(), 
+				parameter_name: "EyeRightX".to_string(), 
 				explanation: Some("Right Stick X".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RStickY".to_string(), 
+				parameter_name: "EyeRightY".to_string(), 
 				explanation: Some("Right Stick Y".to_string()), 
 				min: -1.0, 
 				max: 1.0, 
@@ -700,19 +700,19 @@ RThumbY: {:.2}
 							value: rfButtPress as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_LStickX".to_string(),
+							id: "FaceAngleX".to_string(),
 							value: lAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_LStickY".to_string(),
+							id: "FaceAngleY".to_string(),
 							value: lAxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_RStickX".to_string(),
+							id: "EyeRightX".to_string(),
 							value: rAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
-							id: "NP_RStickY".to_string(),
+							id: "EyeRightY".to_string(),
 							value: rAxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
