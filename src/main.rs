@@ -156,15 +156,15 @@ async fn main() -> Result<(), Error> {
 			client.send(&ParameterCreationRequest {
 				parameter_name: "FaceAngleX".to_string(), 
 				explanation: Some("Left Stick X".to_string()), 
-				min: -30.0, 
-				max: 30.0, 
+				min: -1.0, 
+				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
 				parameter_name: "FaceAngleY".to_string(), 
 				explanation: Some("Left Stick Y".to_string()), 
-				min: -30.0, 
-				max: 30.0, 
+				min: -1.0, 
+				max: 1.0, 
 				default_value: 0.0
 			}).await;
 			client.send(&ParameterCreationRequest {
