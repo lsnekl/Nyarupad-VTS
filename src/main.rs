@@ -38,6 +38,7 @@ async fn main() -> Result<(), Error> {
 	let exWid = 77 + 5 + 15/*77 == text::measure_text("DPadRight: 0.00", 10)*/;
 	let DrawX = 150;
 	
+	//reads Wii Nunchuck over Serial
 	let mut serial = File::open("/dev/ttyACM0").unwrap();
     serial.set_timeout(Duration::from_millis(1000)).unwrap();
     let mut reader = BufReader::new(serial);
@@ -440,12 +441,9 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_X);
-				let mut lAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
+				let mut AxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::x_joystick);
+				let mut AxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::y_joystick)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
-				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
-				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
-				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
 	//}}}
 
 	// Face Button Down{{{
@@ -730,11 +728,11 @@ RThumbY: {:.2}
 							weight: Some(1.0),
 						}, ParameterValue{
 							id: "FaceAngleX".to_string(),
-							value: lAxisX as f64,
+							value: AxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
 							id: "FaceAngleY".to_string(),
-							value: lAxisY as f64,
+							value: AxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
 							id: "EyeRightX".to_string(),
