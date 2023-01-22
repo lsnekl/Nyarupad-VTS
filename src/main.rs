@@ -441,9 +441,12 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut AxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::x_joystick);
-				let mut AxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::y_joystick)*-1.0;
+				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::x_joystick);
+				let mut lAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::y_joystick)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
+				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
+				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
+				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
 	//}}}
 
 	// Face Button Down{{{
@@ -728,11 +731,11 @@ RThumbY: {:.2}
 							weight: Some(1.0),
 						}, ParameterValue{
 							id: "FaceAngleX".to_string(),
-							value: AxisX as f64,
+							value: lAxisX as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
 							id: "FaceAngleY".to_string(),
-							value: AxisY as f64,
+							value: lAxisY as f64,
 							weight: Some(1.0),
 						}, ParameterValue{
 							id: "EyeRightX".to_string(),
