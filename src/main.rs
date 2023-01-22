@@ -9,11 +9,14 @@ use vtubestudio::data::InjectParameterDataRequest;
 use vtubestudio::data::ParameterValue;
 use std::fs;
 use std::fs::File;
+use std::io;
 use std::io::prelude::*;
 use once_cell::sync::OnceCell;
 use serde::Serialize;
+use std::io::BufReader;
+use std::fs::File;
+use std::time::Duration;
 //}}}
-
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -21,7 +24,7 @@ async fn main() -> Result<(), Error> {
 	let C_NAME = env!("CARGO_PKG_NAME");
 	let C_AUTHOR = env!("CARGO_PKG_AUTHORS");
 	let connVTS = true;
-	let windowTitle = &format!("Nyarupad {}", C_VER);
+	let windowTitle = &format!("Nyarupad Wii Support{}", C_VER);
 
 	let mut conInd = 0;
 	let mut exEnable = false;
@@ -34,7 +37,33 @@ async fn main() -> Result<(), Error> {
 	let mut compact = false;
 	let exWid = 77 + 5 + 15/*77 == text::measure_text("DPadRight: 0.00", 10)*/;
 	let DrawX = 150;
+	
+	let mut serial = File::open("/dev/ttyACM0").unwrap();
+    serial.set_timeout(Duration::from_millis(1000)).unwrap();
+    let mut reader = BufReader::new(serial);
+    let mut buffer = String::new();
 
+    loop {
+        buffer.clear();
+        reader.read_line(&mut buffer).unwrap();
+
+        let data: Vec<&str> = buffer.split(",").collect();
+
+        if data.len() != 7 {
+            println!("Invalid data received: {:?}", buffer);
+            continue;
+        }
+
+        let x_joystick: i32 = data[0].parse().unwrap();
+        let y_joystick: i32 = data[1].parse().unwrap();
+        let x_accelerometer: i32 = data[2].parse().unwrap();
+        let y_accelerometer: i32 = data[3].parse().unwrap();
+        let z_accelerometer: i32 = data[4].parse().unwrap();
+        let c_button: i32 = data[5].parse().unwrap();
+        let z_button: i32 = data[6].parse().unwrap();
+    }
+
+	
 //Connecting{{{
 
     let tokenPath = "./token";
