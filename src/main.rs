@@ -52,7 +52,13 @@ async fn main() -> Result<(), Error> {
                     println!("Invalid data received: {:?}", buffer);
                     continue;
                 }
-                let x_joystick: i32 = data[0].parse().unwrap();
+                let x_joystick = match data[0].parse::<i32>(){
+			Ok(n) => n,
+			Err(_) => {
+				println!("Invalid data received for x_joystick: {:?}", data [0]);
+				continue;
+			}
+		    };
                 let y_joystick: i32 = data[1].parse().unwrap();
                 let x_accelerometer: i32 = data[2].parse().unwrap();
                 let y_accelerometer: i32 = data[3].parse().unwrap();
@@ -74,6 +80,7 @@ async fn main() -> Result<(), Error> {
                 }
             }
         }
+	}
 	
 //Connecting{{{
 
