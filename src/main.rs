@@ -14,7 +14,11 @@ use std::io::prelude::*;
 use once_cell::sync::OnceCell;
 use serde::Serialize;
 use std::io::BufReader;
+extern crate arduino_leonardo;
+extern crate serialport;
+use arduino_leonardo::prelude::*;
 use std::time::Duration;
+use serialport::prelude::*;
 //}}}
 
 #[tokio::main]
@@ -38,49 +42,29 @@ async fn main() -> Result<(), Error> {
 	let DrawX = 150;
 	
 	//reads Wii Nunchuck over Serial
-	let mut serial = File::open("/dev/ttyACM0").unwrap();
-    	let timeout = Duration::from_secs(1);
-    	let mut reader = BufReader::new(serial);
-    	let mut buffer = String::new();
+fn main() {
+    let mut arduino = ArduinoLeonardo::new("/dev/ttyACM0").unwrap();
+    arduino.i2c_init();
+    let mut serial = serialport::open("/dev/ttyACM0").unwrap();
+    serial.set_timeout(Duration::from_secs(1)).unwrap();
+    let mut buffer = String::new();
 
     loop {
+        arduino.i2c_write(0x52, 0x00);
+        let data = arduino.i2c_read(0x52, 6);
+        let x_joystick = (data[0] as i16) << 2 | ((data[5] & 0xC0) >> 6) as i16;
+        let y_joystick = (data[1] as i16) << 2 | ((data[5] & 0x30) >> 4) as i16;
+        let x_accelerometer = (data[2] as i16) << 2 | ((data[5] & 0x0C) >> 2) as i16;
+        let y_accelerometer = (data[3] as i16) << 2 | ((data[5] & 0x03) >> 0) as i16;
+        let z_accelerometer = (data[4] as i16) << 2 | ((data[5] & 0xC0) >> 6) as i16;
+        let c_button = (data[5] & 0x02) >> 1;
+        let z_button = (data[5] & 0x01) >> 0;
         buffer.clear();
-        match reader.read_line(&mut buffer) {
-            Ok(_) => {
-                let data: Vec<&str> = buffer.split(",").collect();
-                if data.len() != 7 {
-                    println!("Invalid data received: {:?}", buffer);
-                    continue;
-                }
-                let x_joystick = match data[0].parse::<i32>(){
-			Ok(n) => n,
-			Err(_) => {
-				println!("Invalid data received for x_joystick: {:?}", data [0]);
-				continue;
-			}
-		    };
-                let y_joystick: i32 = data[1].parse().unwrap();
-                let x_accelerometer: i32 = data[2].parse().unwrap();
-                let y_accelerometer: i32 = data[3].parse().unwrap();
-                let z_accelerometer: i32 = data[4].parse().unwrap();
-                let c_button: i32 = data[5].parse().unwrap();
-                let z_button: i32 = data[6].parse().unwrap();
-            },
-            Err(e) => {
-                match e.kind() {
-                    std::io::ErrorKind::TimedOut => {
-                        println!("Timeout error: {:?}", e);
-                        // You can handle the timeout error here
-                        // for example by trying again after a delay
-                        // or printing an error message
-                    }
-                    _ => {
-                        println!("Other error: {:?}", e);
-                    }
-                }
-            }
-        }
-	}
+        buffer = format!("{},{},{},{},{},{},{}", x_joystick, y_joystick, x_accelerometer, y_accelerometer, z_accelerometer, c_button, z_button);
+        serial.write(buffer.as_bytes()).unwrap();
+    }
+}
+
 	
 //Connecting{{{
 
@@ -821,5 +805,5 @@ RThumbY: {:.2}
 		}
 	}
 
-    break Ok(());
+    Ok(())
 }
