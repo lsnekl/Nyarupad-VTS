@@ -451,8 +451,8 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = rl.get_gamepad_axis_movement(conInd, x_joystick);
-				let mut lAxisY = rl.get_gamepad_axis_movement(conInd, y_joystick)*-1.0;
+				let mut lAxisX = x_joystick;
+				let mut lAxisY = (y_joystick)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
 				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
 				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
