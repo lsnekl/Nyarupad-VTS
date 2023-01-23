@@ -9,17 +9,11 @@ use vtubestudio::data::InjectParameterDataRequest;
 use vtubestudio::data::ParameterValue;
 use std::fs;
 use std::fs::File;
-use std::io;
 use std::io::prelude::*;
 use once_cell::sync::OnceCell;
 use serde::Serialize;
-use std::io::BufReader;
-extern crate arduino_leonardo;
-extern crate serialport;
-use arduino_leonardo::prelude::*;
-use std::time::Duration;
-use serialport::prelude::*;
 //}}}
+
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -27,7 +21,7 @@ async fn main() -> Result<(), Error> {
 	let C_NAME = env!("CARGO_PKG_NAME");
 	let C_AUTHOR = env!("CARGO_PKG_AUTHORS");
 	let connVTS = true;
-	let windowTitle = &format!("Nyarupad Wii Support{}", C_VER);
+	let windowTitle = &format!("Nyarupad {}", C_VER);
 
 	let mut conInd = 0;
 	let mut exEnable = false;
@@ -40,32 +34,7 @@ async fn main() -> Result<(), Error> {
 	let mut compact = false;
 	let exWid = 77 + 5 + 15/*77 == text::measure_text("DPadRight: 0.00", 10)*/;
 	let DrawX = 150;
-	
-	//reads Wii Nunchuck over Serial
-fn main() {
-    let mut arduino = ArduinoLeonardo::new("/dev/ttyACM0").unwrap();
-    arduino.i2c_init();
-    let mut serial = serialport::open("/dev/ttyACM0").unwrap();
-    serial.set_timeout(Duration::from_secs(1)).unwrap();
-    let mut buffer = String::new();
 
-    loop {
-        arduino.i2c_write(0x52, 0x00);
-        let data = arduino.i2c_read(0x52, 6);
-        let x_joystick = (data[0] as i16) << 2 | ((data[5] & 0xC0) >> 6) as i16;
-        let y_joystick = (data[1] as i16) << 2 | ((data[5] & 0x30) >> 4) as i16;
-        let x_accelerometer = (data[2] as i16) << 2 | ((data[5] & 0x0C) >> 2) as i16;
-        let y_accelerometer = (data[3] as i16) << 2 | ((data[5] & 0x03) >> 0) as i16;
-        let z_accelerometer = (data[4] as i16) << 2 | ((data[5] & 0xC0) >> 6) as i16;
-        let c_button = (data[5] & 0x02) >> 1;
-        let z_button = (data[5] & 0x01) >> 0;
-        buffer.clear();
-        buffer = format!("{},{},{},{},{},{},{}", x_joystick, y_joystick, x_accelerometer, y_accelerometer, z_accelerometer, c_button, z_button);
-        serial.write(buffer.as_bytes()).unwrap();
-    }
-}
-
-	
 //Connecting{{{
 
     let tokenPath = "./token";
@@ -442,8 +411,8 @@ fn main() {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = x_joystick;
-				let mut lAxisY = (y_joystick)*-1.0;
+				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_X);
+				let mut lAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
 				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
 				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
