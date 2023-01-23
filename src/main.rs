@@ -74,8 +74,6 @@ async fn main() -> Result<(), Error> {
                 }
             }
         }
-    }
-}
 	
 //Connecting{{{
 
