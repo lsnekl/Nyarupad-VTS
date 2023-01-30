@@ -12,9 +12,6 @@ use std::fs::File;
 use std::io::prelude::*;
 use once_cell::sync::OnceCell;
 use serde::Serialize;
-use std::io;
-use std::io::BufReader;
-use std::time::Duration;
 //}}}
 
 
@@ -38,51 +35,6 @@ async fn main() -> Result<(), Error> {
 	let exWid = 77 + 5 + 15/*77 == text::measure_text("DPadRight: 0.00", 10)*/;
 	let DrawX = 150;
 
-	
-	//reads Wii Nunchuck over Serial
-	
-	let mut serial = File::open("/dev/ttyACM0").unwrap();
-    	let timeout = Duration::from_secs(1);
-    	let mut reader = BufReader::new(serial);
-    	let mut buffer = String::new();
-
-    loop {
-        buffer.clear();
-        reader.read_line(&mut buffer).unwrap();
-
-        let data: Vec<&str> = buffer.split(",").collect();
-
-        if data.len() != 7 {
-            println!("Invalid data received: {:?}", buffer);
-            continue;
-        }
-
-        let x_joystick = match data[0].parse::<i32>(){
-			Ok(n) => n,
-			Err(_) => {
-				println!("Invalid data received for x_joystick: {:?}", data [0]);
-				continue;
-			}
-		    };
-        let y_joystick: i32 = data[1].parse().unwrap();
-        let x_accelerometer: i32 = data[2].parse().unwrap();
-        let y_accelerometer: i32 = data[3].parse().unwrap();
-        let z_accelerometer: i32 = data[4].parse().unwrap();
-        let c_button: i32 = data[5].parse().unwrap();
-        let z_button: i32 = data[6].parse().unwrap();
-
-	    			let mut lAxisX = rl.get_gamepad_axis_movement(x_joystick);
-				let mut lAxisY = rl.get_gamepad_axis_movement(conInd, y_joystick)*-1.0;
-				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
-				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
-				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
-				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
-        
-    }
-}
-}
-	
-	
 //Connecting{{{
 
     let tokenPath = "./token";
