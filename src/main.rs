@@ -52,7 +52,7 @@ async fn main() -> Result<(), Error> {
                     println!("Invalid data received: {:?}", buffer);
                 }
                 //let x_joystick: f32 = data[0].parse().unwrap();
-                let y_joystick: f32 = data[1].parse().unwrap();
+                //let y_joystick: f32 = data[1].parse().unwrap();
                 let x_accelerometer: f32 = data[2].parse().unwrap();
                 let y_accelerometer: f32 = data[3].parse().unwrap();
                 let z_accelerometer: f32 = data[4].parse().unwrap();
@@ -450,8 +450,8 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = data[0].parse().unwrap();
-				let mut lAxisY = y_joystick*-1.0;
+				let mut lAxisX = let x_joystick: f32 = data[0].parse().unwrap();
+				let mut lAxisY =  y_joystick: f32 = data[1].parse().unwrap();
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
 				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
 				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
