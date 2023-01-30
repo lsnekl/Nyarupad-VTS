@@ -59,6 +59,10 @@ async fn main() -> Result<(), Error> {
                 let z_accelerometer: i32 = data[4].parse().unwrap();
                 let c_button: i32 = data[5].parse().unwrap();
                 let z_button: i32 = data[6].parse().unwrap();
+		    
+		    		let mut lAxisX = x_joystick;
+				let mut lAxisY = y_joystick*-1.0;
+				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
             },
             Err(e) => {
                 match e.kind() {
@@ -73,12 +77,7 @@ async fn main() -> Result<(), Error> {
                 }
             }
         }
-    
-				let mut lAxisX = x_joystick;
-				let mut lAxisY = y_joystick*-1.0;
-				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
-}
-	
+    }	
 	
 
 //Connecting{{{
