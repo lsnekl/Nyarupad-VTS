@@ -24,7 +24,7 @@ async fn main() -> Result<(), Error> {
 	let C_NAME = env!("CARGO_PKG_NAME");
 	let C_AUTHOR = env!("CARGO_PKG_AUTHORS");
 	let connVTS = true;
-	let windowTitle = &format!("Nyarupad {}", C_VER);
+	let windowTitle = &format!("Nyarupad Wii Nunchuk{}", C_VER);
 
 	let mut conInd = 0;
 	let mut exEnable = false;
@@ -51,8 +51,8 @@ async fn main() -> Result<(), Error> {
                 if data.len() != 7 {
                     println!("Invalid data received: {:?}", buffer);
                 }
-                //let x_joystick: f32 = data[0].parse().unwrap();
-                //let y_joystick: f32 = data[1].parse().unwrap();
+                let x_joystick: f32 = data[0].parse().unwrap();
+                let y_joystick: f32 = data[1].parse().unwrap();
                 let x_accelerometer: f32 = data[2].parse().unwrap();
                 let y_accelerometer: f32 = data[3].parse().unwrap();
                 let z_accelerometer: f32 = data[4].parse().unwrap();
@@ -450,8 +450,8 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = let x_joystick: f32 = data[0].parse().unwrap();
-				let mut lAxisY =  y_joystick: f32 = data[1].parse().unwrap();
+				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y);
+				let mut lAxisY =  rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
 				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
 				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
