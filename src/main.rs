@@ -50,7 +50,6 @@ async fn main() -> Result<(), Error> {
                 let data: Vec<&str> = buffer.split(",").collect();
                 if data.len() != 7 {
                     println!("Invalid data received: {:?}", buffer);
-                    continue;
                 }
                 let x_joystick: f32 = data[0].parse().unwrap();
                 let y_joystick: f32 = data[1].parse().unwrap();
@@ -75,8 +74,6 @@ async fn main() -> Result<(), Error> {
         }
     
 	
-	
-
 //Connecting{{{
 
     let tokenPath = "./token";
@@ -453,7 +450,7 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = x_joystick;
+				let mut lAxisX = x_joystick: f32;
 				let mut lAxisY = y_joystick*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
 				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
