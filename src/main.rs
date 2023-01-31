@@ -61,6 +61,249 @@ async fn main() -> Result<(), Error> {
 		    
 		    
 		    
+		    let connSuccess = match client.send(&ParameterCreationRequest {
+			parameter_name: "NP_ON".to_string(), 
+			explanation: Some("Nyarupad ON".to_string()), 
+			min: 0.0, 
+			max: 1.0, 
+			default_value: 0.0
+		}).await {
+				Ok(resp) => {true},
+				Err(e) => {false},
+			};
+		if connSuccess {
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_LButtonDown".to_string(), 
+				explanation: Some("Left side face buttons down".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_RButtonDown".to_string(), 
+				explanation: Some("Right side face buttons down".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_LButtonPress".to_string(), 
+				explanation: Some("Left side face buttons Pressed".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_RButtonPress".to_string(), 
+				explanation: Some("Right side face buttons Pressed".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_LThumbX".to_string(), 
+				explanation: Some("Left Thumb X".to_string()), 
+				min: -1.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_LThumbY".to_string(), 
+				explanation: Some("Left Thumb Y".to_string()), 
+				min: -1.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_RThumbX".to_string(), 
+				explanation: Some("Right Thumb X".to_string()), 
+				min: -1.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_RThumbY".to_string(), 
+				explanation: Some("Right Thumb Y".to_string()), 
+				min: -1.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "FaceAngleX".to_string(), 
+				explanation: Some("Left Stick X".to_string()), 
+				min: -2.0, 
+				max: 2.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "FaceAngleY".to_string(), 
+				explanation: Some("Left Stick Y".to_string()), 
+				min: -2.0, 
+				max: 2.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "EyeRightX".to_string(), 
+				explanation: Some("Right Stick X".to_string()), 
+				min: -2.0, 
+				max: 2.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "EyeRightY".to_string(), 
+				explanation: Some("Right Stick Y".to_string()), 
+				min: -2.0, 
+				max: 2.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ROnStick".to_string(), 
+				explanation: Some("Outputs 1 when the right thumb is on the analog stick".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_LOnStick".to_string(), 
+				explanation: Some("Outputs 1 when the left thumb is on the analog stick".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_L1".to_string(), 
+				explanation: Some("Shoulder Button L Down (L1, LB)".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_R1".to_string(), 
+				explanation: Some("Shoulder Button R Down (R1, RB)".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_L2".to_string(), 
+				explanation: Some("Trigger Button L (Analog when availible) (L2, LT)".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_R2".to_string(), 
+				explanation: Some("Trigger Button R (Analog when availible) (R2, RT)".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+	// FaceButtons{{{
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ButtonB".to_string(), 
+				explanation: Some("Xbox B, PS Circle Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ButtonX".to_string(), 
+				explanation: Some("Xbox X, PS Square Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ButtonY".to_string(), 
+				explanation: Some("Xbox Y, PS Triangle Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ButtonA".to_string(), 
+				explanation: Some("Xbox A, PS Cross Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+	//}}}
+	// DPAD{{{
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_DPadRight".to_string(), 
+				explanation: Some("DPad Right".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_DPadLeft".to_string(), 
+				explanation: Some("DPad Left".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_DPadUp".to_string(), 
+				explanation: Some("DPad Up".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_DPadDown".to_string(), 
+				explanation: Some("DPad Down".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+	//}}}
+	// Middle{{{
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_SelectDown".to_string(), 
+				explanation: Some("Select button Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_StartDown".to_string(), 
+				explanation: Some("Start button Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ButtonRS".to_string(), 
+				explanation: Some("Right Stick button Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_ButtonLS".to_string(), 
+				explanation: Some("Left Stick button Held".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+	//}}}
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_LIndexPos".to_string(), 
+				explanation: Some("Outputs 1 When finger is on L2/LT/ZL".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+			client.send(&ParameterCreationRequest {
+				parameter_name: "NP_RIndexPos".to_string(), 
+				explanation: Some("Outputs 1 When finger is on R2/RT/ZR".to_string()), 
+				min: 0.0, 
+				max: 1.0, 
+				default_value: 0.0
+			}).await;
+		}
+		    
 				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y);
 				let mut lAxisY =  rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
 				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
@@ -346,248 +589,7 @@ async fn main() -> Result<(), Error> {
     });
 //}}}
 //Create Parameters{{{
-		let connSuccess = match client.send(&ParameterCreationRequest {
-			parameter_name: "NP_ON".to_string(), 
-			explanation: Some("Nyarupad ON".to_string()), 
-			min: 0.0, 
-			max: 1.0, 
-			default_value: 0.0
-		}).await {
-				Ok(resp) => {true},
-				Err(e) => {false},
-			};
-		if connSuccess {
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LButtonDown".to_string(), 
-				explanation: Some("Left side face buttons down".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RButtonDown".to_string(), 
-				explanation: Some("Right side face buttons down".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LButtonPress".to_string(), 
-				explanation: Some("Left side face buttons Pressed".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RButtonPress".to_string(), 
-				explanation: Some("Right side face buttons Pressed".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LThumbX".to_string(), 
-				explanation: Some("Left Thumb X".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LThumbY".to_string(), 
-				explanation: Some("Left Thumb Y".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RThumbX".to_string(), 
-				explanation: Some("Right Thumb X".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RThumbY".to_string(), 
-				explanation: Some("Right Thumb Y".to_string()), 
-				min: -1.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "FaceAngleX".to_string(), 
-				explanation: Some("Left Stick X".to_string()), 
-				min: -2.0, 
-				max: 2.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "FaceAngleY".to_string(), 
-				explanation: Some("Left Stick Y".to_string()), 
-				min: -2.0, 
-				max: 2.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "EyeRightX".to_string(), 
-				explanation: Some("Right Stick X".to_string()), 
-				min: -2.0, 
-				max: 2.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "EyeRightY".to_string(), 
-				explanation: Some("Right Stick Y".to_string()), 
-				min: -2.0, 
-				max: 2.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ROnStick".to_string(), 
-				explanation: Some("Outputs 1 when the right thumb is on the analog stick".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LOnStick".to_string(), 
-				explanation: Some("Outputs 1 when the left thumb is on the analog stick".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_L1".to_string(), 
-				explanation: Some("Shoulder Button L Down (L1, LB)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_R1".to_string(), 
-				explanation: Some("Shoulder Button R Down (R1, RB)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_L2".to_string(), 
-				explanation: Some("Trigger Button L (Analog when availible) (L2, LT)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_R2".to_string(), 
-				explanation: Some("Trigger Button R (Analog when availible) (R2, RT)".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	// FaceButtons{{{
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonB".to_string(), 
-				explanation: Some("Xbox B, PS Circle Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonX".to_string(), 
-				explanation: Some("Xbox X, PS Square Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonY".to_string(), 
-				explanation: Some("Xbox Y, PS Triangle Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonA".to_string(), 
-				explanation: Some("Xbox A, PS Cross Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	//}}}
-	// DPAD{{{
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadRight".to_string(), 
-				explanation: Some("DPad Right".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadLeft".to_string(), 
-				explanation: Some("DPad Left".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadUp".to_string(), 
-				explanation: Some("DPad Up".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_DPadDown".to_string(), 
-				explanation: Some("DPad Down".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	//}}}
-	// Middle{{{
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_SelectDown".to_string(), 
-				explanation: Some("Select button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_StartDown".to_string(), 
-				explanation: Some("Start button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonRS".to_string(), 
-				explanation: Some("Right Stick button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_ButtonLS".to_string(), 
-				explanation: Some("Left Stick button Held".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-	//}}}
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_LIndexPos".to_string(), 
-				explanation: Some("Outputs 1 When finger is on L2/LT/ZL".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-			client.send(&ParameterCreationRequest {
-				parameter_name: "NP_RIndexPos".to_string(), 
-				explanation: Some("Outputs 1 When finger is on R2/RT/ZR".to_string()), 
-				min: 0.0, 
-				max: 1.0, 
-				default_value: 0.0
-			}).await;
-		}
+		
 //}}}
 //Raylib Init{{{
 	let width = 400;
