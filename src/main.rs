@@ -58,6 +58,227 @@ async fn main() -> Result<(), Error> {
                 let z_accelerometer: f32 = data[4].parse().unwrap();
                 let c_button: f32 = data[5].parse().unwrap();
                 let z_button: f32 = data[6].parse().unwrap();
+		    
+		    
+		    
+				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y);
+				let mut lAxisY =  rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
+				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
+				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
+				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
+				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
+	//}}}
+
+	// Face Button Down{{{
+				let rfButtDownS = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT)   { 1.0 } else { 0.0 };
+
+				let rfButtDownU = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP)   { 1.0 } else { 0.0 };
+				let rfButtDownD = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_DOWN) { 1.0 } else { 0.0 };
+				let rfButtDownL = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_LEFT) { 1.0 } else { 0.0 };
+				let rfButtDownR = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_RIGHT){ 1.0 } else { 0.0 };
+				let rStickButton = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_THUMB) { 1.0 } else { 0.0 };
+				let mut rfButtDown = rfButtDownU + rfButtDownD + rfButtDownL + rfButtDownR;
+				if rfButtDown >= 1.0 {
+					rThumbX = rfButtDownR - rfButtDownL;
+					rThumbY = rfButtDownU - rfButtDownD;
+				}
+				
+				let lfButtDownS = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_LEFT)   { 1.0 } else { 0.0 };
+
+				let DPadU = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_UP)   { 1.0 } else { 0.0 };
+				let DPadD = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_DOWN) { 1.0 } else { 0.0 };
+				let DPadL = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_LEFT) { 1.0 } else { 0.0 };
+				let DPadR = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_RIGHT){ 1.0 } else { 0.0 };
+				let lStickButton = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_THUMB) { 1.0 } else { 0.0 };
+				let mut lfButtDown = DPadU + DPadD + DPadL + DPadR;
+				if lfButtDown >= 1.0 {
+					lThumbX = DPadR - DPadL;
+					if DPadToLS { lAxisX = lThumbX * if (lfButtDown >= 2.0) {0.71} else {1.0}};
+					lThumbY = DPadU - DPadD;
+					if DPadToLS { lAxisY = lThumbY * if (lfButtDown >= 2.0) {0.71} else {1.0}};
+				}
+	//}}}
+
+	// Face Button Pressed{{{
+				rfButtPress += -rfButtPress/smooth;
+				lfButtPress += -lfButtPress/smooth;
+
+				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP) ||
+				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_DOWN) ||
+				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_LEFT) ||
+				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) { rfButtPress=1.0; thumbRStick = 0.0;}
+				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_THUMB) { rfButtPress=1.0; thumbRStick = 1.0;}
+				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT) { rfButtPress=1.0;}
+
+				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_UP) ||
+				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_DOWN) ||
+				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_LEFT) ||
+				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_RIGHT) { lfButtPress=if DPadToLS {0.0} else {1.0}; thumbLStick = 0.0;}
+				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_THUMB) { lfButtPress=1.0; thumbLStick = 1.0;}
+				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_LEFT) { lfButtPress=1.0;}
+	//}}}
+
+	// Shoulder Buttons{{{
+				let mut lAxisT = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_TRIGGER);
+				let mut rAxisT = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_TRIGGER);
+				
+				let triggerL1 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_TRIGGER_1);
+				let triggerL2 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_TRIGGER_2);
+				if triggerL1 { shoulderLDown = 0.0}
+				else if triggerL2 { shoulderLDown = 1.0;
+					if lAxisT<=0.0 { lAxisT = 1.0 }
+				};
+				let triggerR1 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_TRIGGER_1);
+				let triggerR2 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_TRIGGER_2);
+				if triggerR1 { shoulderRDown = 0.0}
+				else if triggerR2 { shoulderRDown = 1.0;
+					if rAxisT<=0.0 { rAxisT = 1.0 }
+				};
+				lAxisT = lAxisT/2.0+0.5;
+				rAxisT = rAxisT/2.0+0.5;
+		    
+		    
+		    if connVTS {
+	//ClientSend{{{
+					client.send(&InjectParameterDataRequest{
+						parameter_values: vec![ParameterValue{
+							id: "NP_LButtonDown".to_string(),
+							value: lfButtDown as f64,
+							weight: Some(1.0),
+							   }, ParameterValue{
+								id: "NP_LThumbX".to_string(),
+								value: lThumbX as f64,
+								weight: Some(1.0),
+							   }, ParameterValue{
+								id: "NP_LThumbY".to_string(),
+								value: lThumbY as f64,
+								weight: Some(1.0),
+							   }, ParameterValue{
+								id: "NP_RThumbX".to_string(),
+								value: rThumbX as f64,
+								weight: Some(1.0),
+							   }, ParameterValue{
+								id: "NP_RThumbY".to_string(),
+								value: rThumbY as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_SelectDown".to_string(), 
+								value: lfButtDownS as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_StartDown".to_string(), 
+								value: rfButtDownS as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ButtonB".to_string(), 
+								value: rfButtDownR as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ButtonX".to_string(), 
+								value: rfButtDownL as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ButtonY".to_string(), 
+								value: rfButtDownU as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ButtonA".to_string(), 
+								value: rfButtDownD as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_DPadRight".to_string(), 
+								value: DPadR as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_DPadLeft".to_string(), 
+								value: DPadL as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_DPadUp".to_string(), 
+								value: DPadU as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_DPadDown".to_string(), 
+								value: DPadD as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ButtonRS".to_string(), 
+								value: rStickButton as f64,
+								weight: Some(1.0),
+							}, ParameterValue{
+								id: "NP_ButtonLS".to_string(), 
+								value: lStickButton as f64,
+								weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_ON".to_string(),
+							value: 1.0 as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_RButtonDown".to_string(),
+							value: rfButtDown as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_LButtonPress".to_string(),
+							value: lfButtPress as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_RButtonPress".to_string(),
+							value: rfButtPress as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "FaceAngleX".to_string(),
+							value: lAxisX as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "FaceAngleY".to_string(),
+							value: lAxisY as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "EyeRightX".to_string(),
+							value: rAxisX as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "EyeRightY".to_string(),
+							value: rAxisY as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_L1".to_string(),
+							value: if triggerL1 {1.0} else {0.0},
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_L2".to_string(),
+							value: lAxisT as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_R1".to_string(),
+							value: if triggerR1 {1.0} else {0.0},
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_R2".to_string(),
+							value: rAxisT as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_LIndexPos".to_string(),
+							value: shoulderLDown as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_RIndexPos".to_string(),
+							value: shoulderRDown as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_LOnStick".to_string(),
+							value: thumbLStick as f64,
+							weight: Some(1.0),
+						}, ParameterValue{
+							id: "NP_ROnStick".to_string(),
+							value: thumbRStick as f64,
+							weight: Some(1.0),
+						}],
+					}).await?;
+	//}}}
+			}
+		    
+		    
             },
             Err(e) => {
                 match e.kind() {
@@ -450,81 +671,6 @@ async fn main() -> Result<(), Error> {
 			let conName = rl.get_gamepad_name(conInd).unwrap_or("Unknown Controller".to_string());
 
 	// Stick Axis{{{
-				let mut lAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y);
-				let mut lAxisY =  rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_Y)*-1.0;
-				if lAxisX>0.1||lAxisY>0.1||lAxisX < -0.1 || lAxisY < -0.1 {thumbLStick = 1.0;}
-				let rAxisX = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_X);
-				let rAxisY = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_Y)*-1.0;
-				if rAxisX>0.1||rAxisY>0.1||rAxisX < -0.1 || rAxisY < -0.1 {thumbRStick = 1.0;}
-	//}}}
-
-	// Face Button Down{{{
-				let rfButtDownS = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT)   { 1.0 } else { 0.0 };
-
-				let rfButtDownU = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP)   { 1.0 } else { 0.0 };
-				let rfButtDownD = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_DOWN) { 1.0 } else { 0.0 };
-				let rfButtDownL = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_LEFT) { 1.0 } else { 0.0 };
-				let rfButtDownR = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_RIGHT){ 1.0 } else { 0.0 };
-				let rStickButton = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_THUMB) { 1.0 } else { 0.0 };
-				let mut rfButtDown = rfButtDownU + rfButtDownD + rfButtDownL + rfButtDownR;
-				if rfButtDown >= 1.0 {
-					rThumbX = rfButtDownR - rfButtDownL;
-					rThumbY = rfButtDownU - rfButtDownD;
-				}
-				
-				let lfButtDownS = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_LEFT)   { 1.0 } else { 0.0 };
-
-				let DPadU = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_UP)   { 1.0 } else { 0.0 };
-				let DPadD = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_DOWN) { 1.0 } else { 0.0 };
-				let DPadL = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_LEFT) { 1.0 } else { 0.0 };
-				let DPadR = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_RIGHT){ 1.0 } else { 0.0 };
-				let lStickButton = if rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_THUMB) { 1.0 } else { 0.0 };
-				let mut lfButtDown = DPadU + DPadD + DPadL + DPadR;
-				if lfButtDown >= 1.0 {
-					lThumbX = DPadR - DPadL;
-					if DPadToLS { lAxisX = lThumbX * if (lfButtDown >= 2.0) {0.71} else {1.0}};
-					lThumbY = DPadU - DPadD;
-					if DPadToLS { lAxisY = lThumbY * if (lfButtDown >= 2.0) {0.71} else {1.0}};
-				}
-	//}}}
-
-	// Face Button Pressed{{{
-				rfButtPress += -rfButtPress/smooth;
-				lfButtPress += -lfButtPress/smooth;
-
-				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_UP) ||
-				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_DOWN) ||
-				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_LEFT) ||
-				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) { rfButtPress=1.0; thumbRStick = 0.0;}
-				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_THUMB) { rfButtPress=1.0; thumbRStick = 1.0;}
-				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_RIGHT) { rfButtPress=1.0;}
-
-				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_UP) ||
-				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_DOWN) ||
-				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_LEFT) ||
-				rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_FACE_RIGHT) { lfButtPress=if DPadToLS {0.0} else {1.0}; thumbLStick = 0.0;}
-				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_THUMB) { lfButtPress=1.0; thumbLStick = 1.0;}
-				if rl.is_gamepad_button_pressed(conInd,GamepadButton::GAMEPAD_BUTTON_MIDDLE_LEFT) { lfButtPress=1.0;}
-	//}}}
-
-	// Shoulder Buttons{{{
-				let mut lAxisT = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_LEFT_TRIGGER);
-				let mut rAxisT = rl.get_gamepad_axis_movement(conInd,GamepadAxis::GAMEPAD_AXIS_RIGHT_TRIGGER);
-				
-				let triggerL1 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_TRIGGER_1);
-				let triggerL2 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_LEFT_TRIGGER_2);
-				if triggerL1 { shoulderLDown = 0.0}
-				else if triggerL2 { shoulderLDown = 1.0;
-					if lAxisT<=0.0 { lAxisT = 1.0 }
-				};
-				let triggerR1 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_TRIGGER_1);
-				let triggerR2 = rl.is_gamepad_button_down(conInd,GamepadButton::GAMEPAD_BUTTON_RIGHT_TRIGGER_2);
-				if triggerR1 { shoulderRDown = 0.0}
-				else if triggerR2 { shoulderRDown = 1.0;
-					if rAxisT<=0.0 { rAxisT = 1.0 }
-				};
-				lAxisT = lAxisT/2.0+0.5;
-				rAxisT = rAxisT/2.0+0.5;
 	//}}}
 
 	// Draw UI/Preview{{{
@@ -651,145 +797,7 @@ RThumbY: {:.2}
 	//}}}
 
 	// Update Parameters{{{
-				if connVTS {
-	//ClientSend{{{
-					client.send(&InjectParameterDataRequest{
-						parameter_values: vec![ParameterValue{
-							id: "NP_LButtonDown".to_string(),
-							value: lfButtDown as f64,
-							weight: Some(1.0),
-							   }, ParameterValue{
-								id: "NP_LThumbX".to_string(),
-								value: lThumbX as f64,
-								weight: Some(1.0),
-							   }, ParameterValue{
-								id: "NP_LThumbY".to_string(),
-								value: lThumbY as f64,
-								weight: Some(1.0),
-							   }, ParameterValue{
-								id: "NP_RThumbX".to_string(),
-								value: rThumbX as f64,
-								weight: Some(1.0),
-							   }, ParameterValue{
-								id: "NP_RThumbY".to_string(),
-								value: rThumbY as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_SelectDown".to_string(), 
-								value: lfButtDownS as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_StartDown".to_string(), 
-								value: rfButtDownS as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonB".to_string(), 
-								value: rfButtDownR as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonX".to_string(), 
-								value: rfButtDownL as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonY".to_string(), 
-								value: rfButtDownU as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonA".to_string(), 
-								value: rfButtDownD as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadRight".to_string(), 
-								value: DPadR as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadLeft".to_string(), 
-								value: DPadL as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadUp".to_string(), 
-								value: DPadU as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_DPadDown".to_string(), 
-								value: DPadD as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonRS".to_string(), 
-								value: rStickButton as f64,
-								weight: Some(1.0),
-							}, ParameterValue{
-								id: "NP_ButtonLS".to_string(), 
-								value: lStickButton as f64,
-								weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_ON".to_string(),
-							value: 1.0 as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RButtonDown".to_string(),
-							value: rfButtDown as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LButtonPress".to_string(),
-							value: lfButtPress as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RButtonPress".to_string(),
-							value: rfButtPress as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "FaceAngleX".to_string(),
-							value: lAxisX as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "FaceAngleY".to_string(),
-							value: lAxisY as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "EyeRightX".to_string(),
-							value: rAxisX as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "EyeRightY".to_string(),
-							value: rAxisY as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_L1".to_string(),
-							value: if triggerL1 {1.0} else {0.0},
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_L2".to_string(),
-							value: lAxisT as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_R1".to_string(),
-							value: if triggerR1 {1.0} else {0.0},
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_R2".to_string(),
-							value: rAxisT as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LIndexPos".to_string(),
-							value: shoulderLDown as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_RIndexPos".to_string(),
-							value: shoulderRDown as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_LOnStick".to_string(),
-							value: thumbLStick as f64,
-							weight: Some(1.0),
-						}, ParameterValue{
-							id: "NP_ROnStick".to_string(),
-							value: thumbRStick as f64,
-							weight: Some(1.0),
-						}],
-					}).await?;
-	//}}}
-			}
+				
 	//}}}
 		} else {
 			let current_fps = rl.get_fps();
